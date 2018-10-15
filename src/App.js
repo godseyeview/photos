@@ -7,7 +7,8 @@ class App extends Component {
 
   state = {
     users: [],
-    albums: []
+    albums: [],
+    photos: []
   }
   componentDidMount() {
     axios.get(`https://jsonplaceholder.typicode.com/users`)
@@ -20,13 +21,17 @@ class App extends Component {
         const albums = res.data;
         this.setState({ albums });
       })
+    axios.get('http://jsonplaceholder.typicode.com/photos')
+      .then(res => {
+        const photos = res.data;
+        this.setState({ photos });
+      })
   }
-      
+
   render() {    
     return (
       <div className="App">
-        <Users users={this.state.users} albums={this.state.albums}/>
-        
+        <Users users={this.state.users} albums={this.state.albums} photos={this.state.photos}/>        
       </div>
     );
   }

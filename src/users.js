@@ -11,7 +11,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import axios from 'axios';
-import Albums from './albums';
+import Album from './album';
 
 const drawerWidth = 240;
 
@@ -54,28 +54,40 @@ const styles = theme => ({
 
 class Users extends React.Component {
  
-  state = {
-    anchor: 'left',
-    albums: []
+  state = {    
+    albums: [],
+    albumPhotos: [],
+    thumbnailUrls: []
   };
 
   handleAlbumChange = userId => {
     let albums = [];
+    let albumPhotos = [];
+    let photos = [];
+    let thumbnailUrls = [];
     this.props.albums.map(album => {
       if (userId === album.userId) {
         albums.push(album);
       }
+      let thumbnailUrl = this.props.photos.find(photo => {
+        return photo.albumId === album.id;
+      }).thumbnailUrl;
+      thumbnailUrls.push(thumbnailUrl);
+      this.props.photos.map(photo => {
+        if (photo.alubmId === album.id) {
+          photos.push(photo)
+        }        
+      });
+      albumPhotos.push(photos);
+      photos = [];
     });
     this.setState({
-      albums: albums
-    });         
-  }
-  handleChange = event => {
-    this.setState({
-      anchor: event.target.value,
+      albums: albums,
+      thumbnailUrls: thumbnailUrls,
+      albumPhotos: albumPhotos
     });
-  };
-
+             
+  }  
   
   render() {
     const { classes } = this.props;
@@ -89,7 +101,7 @@ class Users extends React.Component {
         classes={{
           paper: classes.drawerPaper,
         }}
-        anchor={anchor}
+        anchor='left'
       >
         <div className={classes.toolbar} />
         <List component="nav">
@@ -97,15 +109,6 @@ class Users extends React.Component {
         </List>          
       </Drawer>
     );
-
-
-    const userAlbums = (
-      <div>
-      { this.props.albums.map(album => <Albums album={album}></Albums>) }
-      </div>
-    );
-
-    
     return (
       <div className={classes.root}>
         
@@ -123,7 +126,7 @@ class Users extends React.Component {
           {drawer}
           <main className={classes.content}>
             <div className={classes.toolbar} />
-            {userAlbums}
+            { this.state.albums.map((album, index) => <Album album={album} photos={this.props.photos} albumPhotos={this.state.albumPhotos[index]} thumbnailUrl={this.state.thumbnailUrls[index]}></Album>) }
             {'You think water moves fast? You should see ice.'}
           </main>
           
