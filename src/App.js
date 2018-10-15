@@ -1,16 +1,8 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import Users from './users';
 import axios from 'axios';
 
-// const dataProvider = jsonServerProvider('http://jsonplaceholder.typicode.com');
-// console.log(dataProvider);
-// const App = () => (
-//   <Admin dataProvider={jsonServerProvider('http://jsonplaceholder.typicode.com')}>      
-//       <Resource name="users" list={UserList} />
-//   </Admin>
-// );
 class App extends Component {
 
   state = {
@@ -29,7 +21,7 @@ class App extends Component {
         this.setState({ albums });
       })
   }
-
+      
   render() {    
     return (
       <div className="App">

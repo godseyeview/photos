@@ -80,8 +80,8 @@ class Users extends React.Component {
   render() {
     const { classes } = this.props;
     const { anchor } = this.state;
-    const { userId } = this.state;
-    const { albums } = this.state;
+   
+   
     
     const drawer = (
       <Drawer
@@ -100,7 +100,9 @@ class Users extends React.Component {
 
 
     const userAlbums = (
-      <Albums albums={albums}></Albums>
+      <div>
+      { this.props.albums.map(album => <Albums album={album}></Albums>) }
+      </div>
     );
 
     
@@ -114,7 +116,7 @@ class Users extends React.Component {
           >
             <Toolbar>
               
-                Permanent drawer
+                
               
             </Toolbar>
           </AppBar>
